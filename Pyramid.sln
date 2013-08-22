@@ -20,6 +20,9 @@ Global
 		{70841B31-D1E6-42CF-96C5-67ACE3B5934C}.Release|x86.ActiveCfg = Release|Any CPU
 		{70841B31-D1E6-42CF-96C5-67ACE3B5934C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Pyramid\Pyramid.csproj
 	EndGlobalSection
