@@ -36,6 +36,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="PyramidGenerator.cs" />
     <Compile Include="AsynchronousPyramidGenerator.cs" />
+    <Compile Include="SequentialRecursivePyramidGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

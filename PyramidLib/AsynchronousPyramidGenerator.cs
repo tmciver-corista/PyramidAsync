@@ -51,7 +51,6 @@ namespace Pyramid.Generator
             var topRight = Task<Bitmap>.Factory.StartNew(() => { return createTileAsync(level - 1, xs[1], ys[0]); });
             var bottomLeft = Task<Bitmap>.Factory.StartNew(() => { return createTileAsync(level - 1, xs[0], ys[1]); });
             var bottomRight = Task<Bitmap>.Factory.StartNew(() => { return createTileAsync(level - 1, xs[1], ys[1]); });
-            var children = new[] {topLeft, topRight, bottomLeft, bottomRight};
 
             // wait for the tasks to finish
             Task.WaitAll(topLeft, topRight, bottomLeft, bottomRight);
@@ -62,8 +61,7 @@ namespace Pyramid.Generator
 
         private Bitmap stitchImages(Image topLeft, Image topRight, Image bottomLeft, Image bottomRight)
         {
-
-            //Console.WriteLine("Stitching images . . .");
+            Console.WriteLine("Stitching images . . .");
 
             // wait stitchDuration seconds
             Stopwatch sw = new Stopwatch();
@@ -73,12 +71,12 @@ namespace Pyramid.Generator
                 // do nothing
             }
 
-            return new Bitmap(tileDimension, tileDimension); ;
+            return null;// new Bitmap(tileDimension, tileDimension); ;
         }
 
         private Bitmap readImage(int x, int y, int width, int height)
         {
-            //Console.WriteLine("Reading image . . .");
+            Console.WriteLine("Reading image . . .");
 
             // wait readDuration seconds
             Stopwatch sw = new Stopwatch();
@@ -89,7 +87,7 @@ namespace Pyramid.Generator
                 // do nothing
             }
 
-            return new Bitmap(tileDimension, tileDimension);
+            return null;// new Bitmap(tileDimension, tileDimension);
         }
 	}
 }

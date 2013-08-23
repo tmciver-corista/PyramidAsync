@@ -6,15 +6,16 @@ namespace Pyramid
 {
 	class MainClass
 	{
-        const double READ_DURATION = 0.1;
-        const double STITCH_DURATION = 0.2;
+        const double READ_DURATION = 0.01;
+        const double STITCH_DURATION = 0.02;
         const int TILE_DIMENSION = 256;
-        const int LEVELS = 3;
+        const int LEVELS = 7;
 		
         public static void Main(string[] args)
 		{
 			// create a PyramidGenerator
-			PyramidGenerator generator = new AsynchronousPyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
+			//PyramidGenerator generator = new AsynchronousPyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
+            PyramidGenerator generator = new SequentialRecursivePyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
 
             // start the timer
             Stopwatch sw = Stopwatch.StartNew();
