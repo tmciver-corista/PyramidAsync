@@ -71,7 +71,13 @@ namespace Pyramid.Generator
                 // do nothing
             }
 
-            return null;// new Bitmap(tileDimension, tileDimension); ;
+            // dispose of sub images
+            topLeft.Dispose();
+            topRight.Dispose();
+            bottomLeft.Dispose();
+            bottomRight.Dispose();
+
+            return new Bitmap(tileDimension, tileDimension);
         }
 
         private Bitmap readImage(int x, int y, int width, int height)
@@ -87,7 +93,7 @@ namespace Pyramid.Generator
                 // do nothing
             }
 
-            return null;// new Bitmap(tileDimension, tileDimension);
+            return new Bitmap(tileDimension, tileDimension);
         }
 	}
 }
