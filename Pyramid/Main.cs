@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Diagnostics;
 using Pyramid.Generator;
 
@@ -13,9 +14,11 @@ namespace Pyramid
 		
         public static void Main(string[] args)
 		{
+            string filename = @"C:\Users\Public\Pictures\Sample Pictures\Hydrangeas.jpg";
+
 			// create a PyramidGenerator
-			//PyramidGenerator generator = new AsynchronousPyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
-            PyramidGenerator generator = new SequentialRecursivePyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
+			PyramidGenerator generator = new AsynchronousPyramidGenerator(filename, LEVELS);
+            //PyramidGenerator generator = new SequentialRecursivePyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
 
             // start the timer
             Stopwatch sw = Stopwatch.StartNew();
@@ -25,6 +28,8 @@ namespace Pyramid
 
             // stop the timer
             sw.Stop();
+
+            //Thread.Sleep(1000);
 
             Console.WriteLine("Time taken: {0} ms", sw.Elapsed.TotalMilliseconds);
 		}

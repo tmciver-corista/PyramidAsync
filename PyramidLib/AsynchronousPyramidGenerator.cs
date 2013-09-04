@@ -4,21 +4,34 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
 
+using Pyramid.Reader;
+
 namespace Pyramid.Generator
 {
 	public class AsynchronousPyramidGenerator : PyramidGenerator
 	{
         private int levels;
-        private int tileDimension;
-        private double readDuration;
-        private double stitchDuration;
+        private TileReader tileReader;
 		
-        public AsynchronousPyramidGenerator(int levels, int tileDimension, double readDuration, double stitchDuration)
+        public AsynchronousPyramidGenerator(string filename, int levels)
 		{
             this.levels = levels;
-            this.tileDimension = tileDimension;
-            this.readDuration = readDuration;
-            this.stitchDuration = stitchDuration;
+
+            int tilesPerSide = (int)Math.Pow(2, levels - 1);
+
+            ImageReader imageReader = new ImageReader(filename);
+
+            // for now get the smaller of the image width and height; this will mean that
+            // some of the longer dimension will be excluded from the final pyramid tiles
+            int length = Math.Min(imageReader.Height, imageReader.Width);
+
+            // calculate the tile dimension
+            int tileDimension = length / tilesPerSide;
+
+            // finally, create the TileReader
+            tileReader = new TileReader(imageReader, tileDimension);
+
+            Console.WriteLine("AsynchronousPyramidGenerator - tiles per side: {0}, tile dimension: {1}", tilesPerSide, tileDimension);
 		}
 
         public void generate(StreamReader imageStream)
@@ -29,18 +42,20 @@ namespace Pyramid.Generator
         public void createTilesAsync(StreamReader imageStream)
         {
             // wait for the top pyramid tile to be created
-            createTileAsync(levels, 0, 0);
-			
-            // then write this final tile to file
+            createTileAsync(levels - 1, 0, 0);
         }
 		
         private Bitmap createTileAsync(int level, int tileX, int tileY)
         {
+            //Console.WriteLine("Creating tile. x: {0}, y: {1}, level: {2}", tileX, tileY, level);
+
             // check if we're at the base of the pyramid
             if (level == 0)
             {
+                Console.WriteLine("Writing tile to file - level: {0}, x: {1}, y: {2}", level, tileX, tileY);
+                
                 // read a tile at the given coordinates and return the image
-                return readImage(tileX * tileDimension, tileY * tileDimension, tileDimension, tileDimension);
+                return tileReader.read(tileX, tileY);
             }
 			
             // create tasks for the four child tiles in the level below this one
@@ -55,45 +70,24 @@ namespace Pyramid.Generator
             // wait for the tasks to finish
             Task.WaitAll(topLeft, topRight, bottomLeft, bottomRight);
 			
-            // stitch the four subtiles into one and return it
-            return stitchImages(topLeft.Result, topRight.Result, bottomLeft.Result, bottomRight.Result);
-        }
+            // stitch the four subtiles into one
+            Bitmap image = ImageUtils.combine(topLeft.Result, topRight.Result, bottomLeft.Result, bottomRight.Result);
 
-        private Bitmap stitchImages(Image topLeft, Image topRight, Image bottomLeft, Image bottomRight)
-        {
-            Console.WriteLine("Stitching images . . .");
-
-            // wait stitchDuration seconds
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            while (sw.ElapsedMilliseconds < stitchDuration * 1000)
-            {
-                // do nothing
-            }
-
-            // dispose of sub images
+            // dispose of the four sub images
             topLeft.Dispose();
             topRight.Dispose();
             bottomLeft.Dispose();
             bottomRight.Dispose();
 
-            return new Bitmap(tileDimension, tileDimension);
-        }
+            // scale to half the size
+            Bitmap scaledImage = new Bitmap(image, image.Width / 2, image.Height / 2);
 
-        private Bitmap readImage(int x, int y, int width, int height)
-        {
-            Console.WriteLine("Reading image . . .");
+            Console.WriteLine("Writing tile to file - level: {0}, x: {1}, y: {2}", level, tileX, tileY);
 
-            // wait readDuration seconds
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            //Console.WriteLine("Millis: " + sw.ElapsedMilliseconds);
-            while (sw.ElapsedMilliseconds < readDuration * 1000)
-            {
-                // do nothing
-            }
+            // dispose of the original
+            image.Dispose();
 
-            return new Bitmap(tileDimension, tileDimension);
+            return scaledImage;
         }
 	}
 }
