@@ -18,7 +18,7 @@ namespace Pyramid
 
 			// create a PyramidGenerator
 			PyramidGenerator generator = new AsynchronousPyramidGenerator(filename, LEVELS);
-            //PyramidGenerator generator = new SequentialRecursivePyramidGenerator(LEVELS, TILE_DIMENSION, READ_DURATION, STITCH_DURATION);
+            //PyramidGenerator generator = new SequentialRecursivePyramidGenerator(filename, LEVELS);
 
             // start the timer
             Stopwatch sw = Stopwatch.StartNew();
