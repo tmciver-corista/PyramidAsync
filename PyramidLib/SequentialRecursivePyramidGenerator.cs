@@ -8,26 +8,23 @@ namespace Pyramid.Generator
 {
 	public class SequentialRecursivePyramidGenerator : PyramidGenerator
 	{
-		private int levels;
+		private uint levels;
         private TileReader tileReader;
-        //private int tileDimension;
-        //private double readDuration;
-        //private double stitchDuration;
 		
-		public SequentialRecursivePyramidGenerator(string filename, int levels)
+		public SequentialRecursivePyramidGenerator(string filename, uint levels)
 		{
 			this.levels = levels;
 
-            int tilesPerSide = (int)Math.Pow(2, levels - 1);
+            uint tilesPerSide = (uint)Math.Pow(2, levels - 1);
 
             ImageReader imageReader = new ImageReader(filename);
 
             // for now get the smaller of the image width and height; this will mean that
             // some of the longer dimension will be excluded from the final pyramid tiles
-            int length = Math.Min(imageReader.Height, imageReader.Width);
+            uint length = (uint)Math.Min(imageReader.Height, imageReader.Width);
 
             // calculate the tile dimension
-            int tileDimension = length / tilesPerSide;
+            uint tileDimension = length / tilesPerSide;
 
             // finally, create the TileReader
             tileReader = new TileReader(imageReader, tileDimension);
@@ -55,7 +52,7 @@ namespace Pyramid.Generator
 			// then write this final tile to file
 		}
 		
-		private Bitmap createTile(int level, int tileX, int tileY)
+		private Bitmap createTile(uint level, uint tileX, uint tileY)
 		{
 			// check if we're at the base of the pyramid
 			if (level == 0)
@@ -67,8 +64,8 @@ namespace Pyramid.Generator
 			}
 			
 			// create tasks for the four child tiles in the level below this one
-			int[] xs = {2 * tileX, 2 * tileX + 1};
-			int[] ys = {2 * tileY, 2 * tileY + 1};
+			uint[] xs = {2 * tileX, 2 * tileX + 1};
+			uint[] ys = {2 * tileY, 2 * tileY + 1};
             Bitmap scaledImage = null;
 			using (var topLeft = createTile(level - 1, xs[0], ys[0]))
 			using (var topRight = createTile(level - 1, xs[1], ys[0]))

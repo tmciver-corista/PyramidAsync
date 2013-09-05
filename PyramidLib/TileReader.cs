@@ -8,21 +8,21 @@ namespace Pyramid.Reader
     {
         private ImageReader reader;
         
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public uint Width { get; private set; }
+        public uint Height { get; private set; }
 
-        public TileReader(ImageReader imageReader, int width, int height)
+        public TileReader(ImageReader imageReader, uint width, uint height)
         {
             Width = width;
             Height = height;
             reader = imageReader;
         }
 
-        public TileReader(ImageReader imageReader, int tileDimension) : this(imageReader, tileDimension, tileDimension)
+        public TileReader(ImageReader imageReader, uint tileDimension) : this(imageReader, tileDimension, tileDimension)
         {
         }
 
-        public Bitmap read(int tileX, int tileY)
+        public Bitmap read(uint tileX, uint tileY)
         {
             return reader.read(tileX * Width, tileY * Height, Width, Height);
         }
