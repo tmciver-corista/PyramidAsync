@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Diagnostics;
 using Pyramid.Reader;
 
@@ -10,10 +11,15 @@ namespace Pyramid.Generator
 	{
 		private uint levels;
         private TileReader tileReader;
+        private string outputDir;
 		
 		public SequentialRecursivePyramidGenerator(string filename, uint levels)
 		{
 			this.levels = levels;
+
+            // create the output directory
+            this.outputDir = Directory.GetParent(filename).ToString() + @"\" + Path.GetFileNameWithoutExtension(filename) + "_sequential";
+            Directory.CreateDirectory(outputDir);
 
             uint tilesPerSide = (uint)Math.Pow(2, levels - 1);
 
@@ -40,16 +46,7 @@ namespace Pyramid.Generator
 		private void createTiles(StreamReader imageStream)
 		{
 			// wait for the top pyramid tile to be created
-            try
-            {
-                createTile(levels - 1, 0, 0);
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine("Caught exception: " + e);
-            }
-			
-			// then write this final tile to file
+            createTile(levels - 1, 0, 0);
 		}
 		
 		private Bitmap createTile(uint level, uint tileX, uint tileY)
@@ -57,10 +54,15 @@ namespace Pyramid.Generator
 			// check if we're at the base of the pyramid
 			if (level == 0)
 			{
-                Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
+                //Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
+
+                Bitmap tile = tileReader.read(tileX, tileY);
+
+                // write tile to file
+                tile.Save(File.Create(outputDir + @"\" + string.Format("{0}_{1}_{2}.jpg", level, tileX, tileY)), ImageFormat.Jpeg);
 
                 // read a tile at the given coordinates and return the image
-                return tileReader.read(tileX, tileY);
+                return tile;
 			}
 			
 			// create tasks for the four child tiles in the level below this one
@@ -77,7 +79,10 @@ namespace Pyramid.Generator
                 scaledImage = new Bitmap(image, image.Width / 2, image.Height / 2);
             }
 
-            Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
+            //Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
+
+            // write tile to file
+            scaledImage.Save(File.Create(outputDir + @"\" + string.Format("{0}_{1}_{2}.jpg", level, tileX, tileY)), ImageFormat.Jpeg);
 
             return scaledImage;
 		}
