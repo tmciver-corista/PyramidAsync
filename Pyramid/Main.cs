@@ -6,16 +6,15 @@ using Pyramid.Generator;
 namespace Pyramid
 {
 	class MainClass
-	{
-        const int LEVELS = 7;
-		
+	{	
         public static void Main(string[] args)
 		{
-            string filename = @"C:\Users\Public\Pictures\Sample Pictures\Hydrangeas.jpg";
+            uint levels = uint.Parse(args[0]);
+            string filename = args[1];
 
 			// create a PyramidGenerator
-			PyramidGenerator generator = new AsynchronousPyramidGenerator(filename, LEVELS);
-            //PyramidGenerator generator = new SequentialRecursivePyramidGenerator(filename, LEVELS);
+			PyramidGenerator generator = new AsynchronousPyramidGenerator(filename, levels);
+            //PyramidGenerator generator = new SequentialRecursivePyramidGenerator(filename, levels);
 
             // start the timer
             Stopwatch sw = Stopwatch.StartNew();
@@ -25,8 +24,6 @@ namespace Pyramid
 
             // stop the timer
             sw.Stop();
-
-            //Thread.Sleep(1000);
 
             Console.WriteLine("Time taken: {0} ms", sw.Elapsed.TotalMilliseconds);
 		}

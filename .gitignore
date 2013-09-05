@@ -4,3 +4,4 @@ obj/
 *.pidb
 *.cache
 *.suo
+*.user
