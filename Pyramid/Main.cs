@@ -7,9 +7,6 @@ namespace Pyramid
 {
 	class MainClass
 	{
-        const double READ_DURATION = 0.01;
-        const double STITCH_DURATION = 0.02;
-        const int TILE_DIMENSION = 256;
         const int LEVELS = 7;
 		
         public static void Main(string[] args)

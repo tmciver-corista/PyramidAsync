@@ -17,9 +17,6 @@ namespace Pyramid.Generator
 		public SequentialRecursivePyramidGenerator(string filename, int levels)
 		{
 			this.levels = levels;
-            //this.tileDimension = tileDimension;
-            //this.readDuration = readDuration;
-            //this.stitchDuration = stitchDuration;
 
             int tilesPerSide = (int)Math.Pow(2, levels - 1);
 
@@ -43,12 +40,12 @@ namespace Pyramid.Generator
 			createTiles(imageStream);
 		}
 		
-		public void createTiles(StreamReader imageStream)
+		private void createTiles(StreamReader imageStream)
 		{
 			// wait for the top pyramid tile to be created
             try
             {
-                createTile(levels, 0, 0);
+                createTile(levels - 1, 0, 0);
             }
             catch (Exception e)
             {
@@ -63,14 +60,13 @@ namespace Pyramid.Generator
 			// check if we're at the base of the pyramid
 			if (level == 0)
 			{
-                Console.WriteLine("Writing tile to file - level: {0}, x: {1}, y: {2}", level, tileX, tileY);
+                Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
 
                 // read a tile at the given coordinates and return the image
                 return tileReader.read(tileX, tileY);
 			}
 			
 			// create tasks for the four child tiles in the level below this one
-			//Task<Bitmap>[] children = new Task<Bitmap>[4];
 			int[] xs = {2 * tileX, 2 * tileX + 1};
 			int[] ys = {2 * tileY, 2 * tileY + 1};
             Bitmap scaledImage = null;
@@ -83,21 +79,8 @@ namespace Pyramid.Generator
                 // scale to half the size
                 scaledImage = new Bitmap(image, image.Width / 2, image.Height / 2);
             }
-			
-			
 
-            // dispose of the four sub images
-            //topLeft.Dispose();
-            //topRight.Dispose();
-            //bottomLeft.Dispose();
-            //bottomRight.Dispose();
-
-            
-
-            Console.WriteLine("Writing tile to file - level: {0}, x: {1}, y: {2}", level, tileX, tileY);
-
-            // dispose of the original
-            //image.Dispose();
+            Console.WriteLine("Writing tile to file - level: {0}, tileX: {1}, tileY: {2}", level, tileX, tileY);
 
             return scaledImage;
 		}

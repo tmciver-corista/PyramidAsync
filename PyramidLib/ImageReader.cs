@@ -11,7 +11,7 @@ namespace Pyramid.Reader
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public ImageReader(string filename) //: this(new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+        public ImageReader(string filename)
         {
             this.filename = filename;
 
@@ -20,7 +20,7 @@ namespace Pyramid.Reader
             {
                 Width = bm.Width;
                 Height = bm.Height;
-                Console.WriteLine("Width: {0}, Height: {1}", Width, Height);
+                //Console.WriteLine("Width: {0}, Height: {1}", Width, Height);
             }
         }
 
@@ -30,8 +30,7 @@ namespace Pyramid.Reader
 
             // create a bitmap from the image strem
             Bitmap subimage = null;
-            using (Stream imageStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (Bitmap wholeImage = new Bitmap(imageStream))
+            using (Bitmap wholeImage = new Bitmap(filename))
             {
                 Rectangle cropRegion = new Rectangle(x, y, width, height);
                 subimage = wholeImage.Clone(cropRegion, wholeImage.PixelFormat);
