@@ -4,27 +4,19 @@ using Pyramid.Reader;
 
 namespace Pyramid.Reader
 {
-    public class TileReader
+    public abstract class TileReader
     {
-        private ImageReader reader;
-        
-        public uint Width { get; private set; }
-        public uint Height { get; private set; }
+        protected ImageReader ImageReader;
+        public uint TileWidth { get; private set; }
+        public uint TileHeight { get; private set; }
 
-        public TileReader(ImageReader imageReader, uint width, uint height)
+        public TileReader(ImageReader imageReader, uint tileWidth, uint tileHeight)
         {
-            Width = width;
-            Height = height;
-            reader = imageReader;
+            TileWidth = tileWidth;
+            TileHeight = tileHeight;
+            ImageReader = imageReader;
         }
 
-        public TileReader(ImageReader imageReader, uint tileDimension) : this(imageReader, tileDimension, tileDimension)
-        {
-        }
-
-        public Bitmap read(uint tileX, uint tileY)
-        {
-            return reader.read(tileX * Width, tileY * Height, Width, Height);
-        }
+        public abstract Bitmap read(uint tileX, uint tileY);
     }
 }

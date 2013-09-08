@@ -33,7 +33,7 @@ namespace Pyramid.Generator
             uint tileDimension = length / tilesPerSide;
 
             // finally, create the TileReader
-            tileReader = new TileReader(imageReader, tileDimension);
+            tileReader = new DefaultTileReader(imageReader, tileDimension);
 
             Console.WriteLine("SequentialRecursivePyramidGenerator - tiles per side: {0}, tile dimension: {1}", tilesPerSide, tileDimension);
 		}
