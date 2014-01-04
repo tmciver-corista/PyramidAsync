@@ -12,15 +12,33 @@ namespace Pyramid.Reader
     /// </summary>
     class DefaultTileReader : TileReader
     {
-        public DefaultTileReader(ImageReader imageReader, uint tileWidth, uint tileHeight) : base(imageReader, tileWidth, tileHeight)
+        private ImageReader ImageReader;
+        private uint tileWidth, tileHeight;
+        
+        public DefaultTileReader(ImageReader imageReader, uint tileWidth, uint tileHeight)
         {
+            this.ImageReader = imageReader;
+            this.tileWidth = tileWidth;
+            this.tileHeight = tileHeight;
+        }
+
+        public uint TileWidth
+        {
+            get { return tileWidth; }
+            set { tileWidth = value; }
+        }
+
+        public uint TileHeight
+        {
+            get { return tileHeight; }
+            set { tileHeight = value; }
         }
 
         public DefaultTileReader(ImageReader imageReader, uint tileDimension) : this(imageReader, tileDimension, tileDimension)
         {
         }
 
-        public override Bitmap read(uint tileX, uint tileY)
+        public Bitmap read(uint tileX, uint tileY)
         {
             return ImageReader.read(tileX * TileWidth, tileY * TileHeight, TileWidth, TileHeight);
         }
