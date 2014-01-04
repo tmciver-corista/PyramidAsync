@@ -23,7 +23,7 @@ namespace Pyramid.Generator
 
             uint tilesPerSide = (uint)Math.Pow(2, levels - 1);
 
-            ImageReader imageReader = new ImageReader(filename);
+            ImageReader imageReader = new DefaultImageReader(filename);
 
             // for now get the smaller of the image width and height; this will mean that
             // some of the longer dimension will be excluded from the final pyramid tiles
