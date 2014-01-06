@@ -8,7 +8,7 @@ namespace Pyramid.Reader
      * The DefaultImageReader can be used to read any image format
      * supported byt the Bitmap class.
      */
-    class DefaultImageReader : ImageReader
+    public class DefaultImageReader : ImageReader
     {
         private string filename;
 

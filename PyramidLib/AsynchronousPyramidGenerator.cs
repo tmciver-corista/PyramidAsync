@@ -14,36 +14,27 @@ namespace Pyramid.Generator
         private uint levels;
         private TileReader tileReader;
         private string outputDir;
-		
-        public AsynchronousPyramidGenerator(string filename, uint levels)
-		{
-            this.levels = levels;
 
-            // create the output directory
-            this.outputDir = Directory.GetParent(filename).ToString() + @"\" + Path.GetFileNameWithoutExtension(filename) + "_parallel";
-            Directory.CreateDirectory(outputDir);
+        /**
+         * Note that the TileReader passed in should support the pyramid algorithm, i.e., that
+         * the foloowing two things should be true: 1) the number of tiles in botht the X and Y
+         * dimmensions should be equal and 2) that number should be a power of two.
+         */
+        public AsynchronousPyramidGenerator(TileReader tileReader, string outputDir)
+        {
+            this.tileReader = tileReader;
+            this.outputDir = outputDir;
 
-            uint tilesPerSide = (uint)Math.Pow(2, levels - 1);
+            // we really should be checking that the given TileReader supports the pyramid algorithm,
+            // i.e., that the number of both X and Y tiles are equal and that that number is a power
+            // of two.  For now, we'll just let it encounter an exception.
 
-            ImageReader imageReader = new DefaultImageReader(filename);
+            // calculate the number of levels given the number of tiles along one dimension
+            // supported by the given TileReader
+            levels = (uint)Math.Log(tileReader.NumberTilesX, 2.0) + 1;
 
-            // for now get the smaller of the image width and height; this will mean that
-            // some of the longer dimension will be excluded from the final pyramid tiles
-            uint length = (uint)Math.Min(imageReader.Height, imageReader.Width);
-
-            // calculate the tile dimension
-            uint tileDimension = length / tilesPerSide;
-
-            // finally, create the TileReader
-            tileReader = new DefaultTileReader(imageReader, tileDimension);
-            //Console.WriteLine("tileReader.NumberTilesX: " + tileReader.NumberTilesX + ", tileReader.NumberTilesY: " + tileReader.NumberTilesY);
-
-            // and wrap it in the CenteredTileReader decorator
-            tileReader = new CenteredTileReader(tileReader);
-            //Console.WriteLine("tileReader.NumberTilesX: " + tileReader.NumberTilesX + ", tileReader.NumberTilesY: " + tileReader.NumberTilesY);
-
-            Console.WriteLine("AsynchronousPyramidGenerator - tiles per side: {0}, tile dimension: {1}", tilesPerSide, tileDimension);
-		}
+            //Console.WriteLine("Levels: " + levels);
+        }
 
         public void generate(StreamReader imageStream)
         {

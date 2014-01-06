@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Pyramid.Reader
 {
-    class CenteredTileReader : TileReaderDecorator
+    public class CenteredTileReader : TileReaderDecorator
     {
         private uint offsetX;
         private uint offsetY;
@@ -89,7 +89,7 @@ namespace Pyramid.Reader
             uint tileXTrans = tileX - offsetX;
             uint tileYTrans = tileY - offsetY;
 
-            Console.Write("Returning delegated tile for indices {0}, {1} (transformed indices: {2}, {3}).\n", tileX, tileY, tileXTrans, tileYTrans);
+            //Console.Write("Returning delegated tile for indices {0}, {1} (transformed indices: {2}, {3}).\n", tileX, tileY, tileXTrans, tileYTrans);
 
             return tileReader.read(tileXTrans, tileYTrans);
         }

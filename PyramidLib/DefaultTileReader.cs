@@ -10,7 +10,7 @@ namespace Pyramid.Reader
     /// dimensions that evenly divide the image dimensions if the entire image is to
     /// be read.
     /// </summary>
-    class DefaultTileReader : TileReader
+    public class DefaultTileReader : TileReader
     {
         private ImageReader ImageReader;
         private uint tileWidth, tileHeight;
