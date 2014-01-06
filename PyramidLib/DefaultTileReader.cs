@@ -14,24 +14,35 @@ namespace Pyramid.Reader
     {
         private ImageReader ImageReader;
         private uint tileWidth, tileHeight;
+        private uint numTilesX, numTilesY;
         
         public DefaultTileReader(ImageReader imageReader, uint tileWidth, uint tileHeight)
         {
             this.ImageReader = imageReader;
             this.tileWidth = tileWidth;
             this.tileHeight = tileHeight;
+            this.numTilesX = (uint)Math.Ceiling(imageReader.Width / (double)tileWidth);
+            this.numTilesY = (uint)Math.Ceiling(imageReader.Height / (double)tileHeight);
         }
 
         public uint TileWidth
         {
             get { return tileWidth; }
-            set { tileWidth = value; }
         }
 
         public uint TileHeight
         {
             get { return tileHeight; }
-            set { tileHeight = value; }
+        }
+
+        public uint NumberTilesX
+        {
+            get { return numTilesX; }
+        }
+
+        public uint NumberTilesY
+        {
+            get { return numTilesY; }
         }
 
         public DefaultTileReader(ImageReader imageReader, uint tileDimension) : this(imageReader, tileDimension, tileDimension)

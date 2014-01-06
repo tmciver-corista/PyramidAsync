@@ -36,6 +36,11 @@ namespace Pyramid.Generator
 
             // finally, create the TileReader
             tileReader = new DefaultTileReader(imageReader, tileDimension);
+            //Console.WriteLine("tileReader.NumberTilesX: " + tileReader.NumberTilesX + ", tileReader.NumberTilesY: " + tileReader.NumberTilesY);
+
+            // and wrap it in the CenteredTileReader decorator
+            tileReader = new CenteredTileReader(tileReader);
+            //Console.WriteLine("tileReader.NumberTilesX: " + tileReader.NumberTilesX + ", tileReader.NumberTilesY: " + tileReader.NumberTilesY);
 
             Console.WriteLine("AsynchronousPyramidGenerator - tiles per side: {0}, tile dimension: {1}", tilesPerSide, tileDimension);
 		}

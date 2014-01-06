@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DefaultImageReader.cs" />
+    <Compile Include="CenteredTileReader.cs" />
     <Compile Include="DefaultTileReader.cs" />
     <Compile Include="ImageReader.cs" />
     <Compile Include="ImageUtils.cs" />
@@ -42,6 +43,7 @@
     <Compile Include="AsynchronousPyramidGenerator.cs" />
     <Compile Include="SequentialRecursivePyramidGenerator.cs" />
     <Compile Include="TileReader.cs" />
+    <Compile Include="TileReaderDecorator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

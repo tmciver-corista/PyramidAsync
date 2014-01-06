@@ -8,6 +8,8 @@ namespace Pyramid.Reader
     {
         uint TileWidth { get; }
         uint TileHeight { get; }
+        uint NumberTilesX { get; }
+        uint NumberTilesY { get; }
         Bitmap read(uint tileX, uint tileY);
     }
 }
