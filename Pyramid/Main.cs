@@ -18,7 +18,8 @@ namespace Pyramid
             Directory.CreateDirectory(outputDir);
 
             // create an ImageReader
-            ImageReader imageReader = new DefaultImageReader(filename);
+            //ImageReader imageReader = new DefaultImageReader(filename);
+            ImageReader imageReader = new OpenSlideImageReader(filename);
 
             // create a TileReader
             TileReader tileReader = new DefaultTileReader(imageReader, tileDimension);

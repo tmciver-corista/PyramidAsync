@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -39,6 +40,7 @@
     <Compile Include="DefaultTileReader.cs" />
     <Compile Include="ImageReader.cs" />
     <Compile Include="ImageUtils.cs" />
+    <Compile Include="OpenSlideImageReader.cs" />
     <Compile Include="PyramidGenerator.cs" />
     <Compile Include="AsynchronousPyramidGenerator.cs" />
     <Compile Include="SequentialRecursivePyramidGenerator.cs" />
